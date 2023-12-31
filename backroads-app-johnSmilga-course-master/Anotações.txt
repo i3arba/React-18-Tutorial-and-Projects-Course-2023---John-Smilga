@@ -1,0 +1,1 @@
+O CSS do protocolo pode ser dividido em vários arquivos. Entretanto, o arquivo CSS correspondente ao root será majoritário. Ou seja, se eu colocar determinada configuração em qualquer um dos outros arquivos e também colocar a mesma configuração no root.css, a configuração válida será a do root.

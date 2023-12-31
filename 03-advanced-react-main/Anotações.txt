@@ -1,0 +1,121 @@
+Ir ao link:
+https://vitejs.dev/guide/
+
+Rolar a barra até os templates. Considerar a versão do node.js, mas geralmente o comando padrão é esse:
+
+npm create vite@latest my-vue-app -- --template vue
+
+Alterar os dados:
+
+npm create vite@latest my-app -- --template react
+
+PONTOS IMPORTANTES
+1 - Usando o Vite, os arquivos precisam ser nomeados .jsx. Se colocar só .js, vai dar erro.
+2 - No creact-react-app usamos index.js. No Vite, usamos main.jsx. Não existe o index, mas a ideia é a mesma. Só nomenclatura que muda.
+
+Para vermos a atualização mais recente de um elemento no browser, precisamos estabeler um valor de estado e usar o hook useState para ativar o render
+
+A renderização acontece quando a aplicação é carregada.
+
+A re-renderização acontece quando o State ou Props mudam. Ou seja, quando atualizamos uma variável mudando seu valor ou propriedades.
+
+Hooks
+
+Por padrão, todos os Hooks iniciam com a palavra useNOMEDOHOOK
+Hooks só podem ser usados dentro do corpo de um componente.
+Não chame hooks dentro de condicionais
+
+setNOME funcions
+
+Não atualizam seu valor imediatamente. Usando o console podemos ver que ela sempre retorna o valor anterior, mesmo que o valor já tenha mudado.
+
+Se precisarmos do valor atualizado para alguma funcionalidade específica, é isso que devemos fazer:
+
+
+  const handleClick = () => {
+    setValue((currentState) => {
+      const newState = currentState +1;
+      return newState;
+    });
+      // console.log(value);
+  }
+
+
+Posso mudar o fecthUser para fora da função useEffect?
+Sim!
+
+Posso colocá-lo em outro arquivo.
+Posso removê-lo para fora da função(antes), e colocar a chamada dele dentro dela.
+Porém, removê-lo fará o react reclamar e solicitar que seja colocado como uma dependência no array de dependências. E não devemos fazer isso, pois dará erro.
+
+REGRAS PARA USAR Hooks
+
+NÃO USE HOOKS DENTRO DE CONDIÇÕES. NÃO VAI FUNCIONAR.
+
+Sempre use os HOOKS antes da condição.
+
+O return é JSX.
+JSX não aceita condicionamento.
+
+Usamos o operadores principalmente com API's. Não sabemos se receberemos todos os dados sempre. Portanto, precisamos ter um retorno, caso o dado esteja indisponível.
+
+Usandor OR 
+<div>
+  <h2>{name || 'default value'}</h2>
+</div>
+
+Usando AND
+O código abaixo significa:
+{text && <div> <-- Se text = true. Retorne a div com o texto. 
+          <h2>whatever return</h2>
+          <h2>{name}</h2>
+        </div>}
+    </div>
+
+Ternary Operator
+Usando o ternary retornamos um elemento se for true, e retornamos outro se for false.
+
+      {user ? ( <-- se user exists
+        <div> <-- show the div below
+          <h4>hello there user {user.name}</h4>
+        </div> <-- if user does not exists 
+      ) : ( <-- asks for login
+        <div>
+          <h4>please login</h4>
+        </div>
+      )}
+
+CleanUp functions
+
+Não precisamos usar para todos os useEffect, mas é uma boa prática dependendo  da aplicação.
+
+const RandomComponent = () => {
+  useEffect(() => {
+    // console.log("hmm, this is interesting");
+
+    const intId = setInterval(() => {
+      // console.log("hello from interval");
+      }, 1000);
+
+      return () => {
+        clearInterval(intId);
+        console.log('cleanup');
+      }
+  }, []);
+  return <h1>hello there</h1>;
+};
+
+Se não usarmos, nesse caso, o log 'hello from interval' ficará rodando em segundo plano. E isso não é bom.
+
+Também podemos usar a com event listeners. Ex:
+const RandomComponent = () => {
+  useEffect(() => {
+    const someFunc = () => {
+      //some logic
+    }
+    window.addEventListener('scroll', someFunc);
+    return () => window.removeEventListener('scroll', someFunc);
+    
+  }, []);
+  return <h1>hello there</h1>;
+}
